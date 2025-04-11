@@ -4,17 +4,12 @@ import { gsap } from 'https://cdn.skypack.dev/gsap';
 
 // Scene and Camera
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-    15, // Wider FOV for mobile
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-);
-camera.position.z = 12; // Adjusted for image visibility
+const camera = new THREE.PerspectiveCamera(15, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 12;
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // Lower for mobile
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 renderer.setSize(window.innerWidth, window.innerHeight);
 const container3D = document.getElementById('container3D');
 container3D.appendChild(renderer.domElement);
@@ -36,13 +31,12 @@ let bee;
 let mixer;
 const loader = new GLTFLoader();
 loader.load(
-    '/demon.glb',
+    'https://vikasyadav1815.github.io/BEE-ZONE/demon.glb', // Full URL
     (gltf) => {
         bee = gltf.scene;
         const scale = window.innerWidth < 768 ? 0.5 : 0.7;
         bee.scale.set(scale, scale, scale);
         scene.add(bee);
-
         mixer = new THREE.AnimationMixer(bee);
         if (gltf.animations.length) {
             mixer.clipAction(gltf.animations[0]).play();
@@ -70,26 +64,10 @@ reRender3D();
 
 // Model Positioning
 const arrPositionModel = [
-    {
-        id: 'banner',
-        position: { x: 0, y: -0.5, z: 2 }, // Adjusted z to avoid image overlap
-        rotation: { x: 0, y: 1.5, z: 0 }
-    },
-    {
-        id: 'intro',
-        position: { x: 0.8, y: -0.5, z: -2 },
-        rotation: { x: 0.5, y: -0.5, z: 0 }
-    },
-    {
-        id: 'description',
-        position: { x: -0.8, y: -0.5, z: -2 },
-        rotation: { x: 0, y: 0.5, z: 0 }
-    },
-    {
-        id: 'contact',
-        position: { x: 0.5, y: -0.5, z: 2 },
-        rotation: { x: 0.3, y: -0.5, z: 0 }
-    }
+    { id: 'banner', position: { x: 0, y: -0.5, z: 2 }, rotation: { x: 0, y: 1.5, z: 0 } },
+    { id: 'intro', position: { x: 0.8, y: -0.5, z: -2 }, rotation: { x: 0.5, y: -0.5, z: 0 } },
+    { id: 'description', position: { x: -0.8, y: -0.5, z: -2 }, rotation: { x: 0, y: 0.5, z: 0 } },
+    { id: 'contact', position: { x: 0.5, y: -0.5, z: 2 }, rotation: { x: 0.3, y: -0.5, z: 0 } }
 ];
 
 const modelMove = () => {
@@ -105,28 +83,13 @@ const modelMove = () => {
     const position_active = arrPositionModel.findIndex((val) => val.id === currentSection);
     if (position_active >= 0) {
         const new_coordinates = arrPositionModel[position_active];
-        gsap.to(bee.position, {
-            x: new_coordinates.position.x,
-            y: new_coordinates.position.y,
-            z: new_coordinates.position.z,
-            duration: 1.5,
-            ease: 'power1.out'
-        });
-        gsap.to(bee.rotation, {
-            x: new_coordinates.rotation.x,
-            y: new_coordinates.rotation.y,
-            z: new_coordinates.rotation.z,
-            duration: 1.5,
-            ease: 'power1.out'
-        });
+        gsap.to(bee.position, { x: new_coordinates.position.x, y: new_coordinates.position.y, z: new_coordinates.position.z, duration: 1.5, ease: 'power1.out' });
+        gsap.to(bee.rotation, { x: new_coordinates.rotation.x, y: new_coordinates.rotation.y, z: new_coordinates.rotation.z, duration: 1.5, ease: 'power1.out' });
     }
 };
 
 // Event Listeners
-window.addEventListener('scroll', () => {
-    if (bee) modelMove();
-});
-
+window.addEventListener('scroll', () => { if (bee) modelMove(); });
 window.addEventListener('resize', () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
