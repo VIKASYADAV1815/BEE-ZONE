@@ -359,8 +359,8 @@ header .content-fit nav ul {
     }
 
     #container3D {
-        transform: scale(0.7);
-    }
+        transform: scale(0.5);
+    
 }
 
 /* Extra Small Phones (max-width: 480px) */
@@ -415,6 +415,6 @@ header .content-fit nav ul {
     }
 
     #container3D {
-        transform: scale(0.9);
+        transform: scale(0.6);
     }
 }
