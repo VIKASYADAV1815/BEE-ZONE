@@ -31,7 +31,7 @@ let bee;
 let mixer;
 const loader = new GLTFLoader();
 loader.load(
-    'https://vikasyadav1815.github.io/BEE-ZONE/demon.glb', // Full URL
+    './demon.glb', // Relative path try
     (gltf) => {
         bee = gltf.scene;
         const scale = window.innerWidth < 768 ? 0.5 : 0.7;
